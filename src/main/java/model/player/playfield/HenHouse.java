@@ -1,11 +1,18 @@
 package model.player.playfield;
 
+import model.RawMaterial;
 import model.player.Player;
 
 public class HenHouse extends Field {
 
     @Override
-    public void action(Player player) {
+    public void entry(Player player) {
 
     }
+
+    @Override
+    public RawMaterial getMaterial() {
+        return RawMaterial.EGG;
+    }
+
 }

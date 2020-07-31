@@ -1,11 +1,19 @@
 package model.player.playfield;
 
 
+import model.RawMaterial;
 import model.player.Player;
 
 public class StartField extends Field {
     @Override
-    public void action(Player player) {
+    public void entry(Player player) {
+        super.entry(player);
         player.earnGold(5);
     }
+
+    @Override
+    public RawMaterial getMaterial() {
+        throw new UnsupportedOperationException();
+    }
+
 }

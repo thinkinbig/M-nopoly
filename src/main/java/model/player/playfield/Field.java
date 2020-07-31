@@ -1,5 +1,6 @@
 package model.player.playfield;
 
+import model.RawMaterial;
 import model.player.Player;
 
 public abstract class Field {
@@ -10,14 +11,18 @@ public abstract class Field {
     public Field() {
     }
 
-    public void addPlayerNumber() {
+    public void entry(Player player) {
         if (players + 1 <= 4)
             players++;
         else
             throw new IllegalArgumentException();
     }
 
-    public abstract void action(Player player);
+    public void exit(Player player) {
+        this.players--;
+    }
+
+    public abstract RawMaterial getMaterial();
 
 
 }

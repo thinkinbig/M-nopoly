@@ -1,17 +1,21 @@
 package model.player;
 
+import model.RawMaterial;
 import model.player.playfield.Field;
 import model.player.playfield.StartField;
 import model.player.status.InitialStatus;
 import model.player.status.Status;
 import model.product.Product;
 
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConcretePlayer implements Player{
     private Status status;
     private Field field;
     private final List<Field> fields;
+    private final Map<RawMaterial, Integer> materials = new EnumMap<>(RawMaterial.class);
     private static int counter = 0;
     private final int id = counter++;
     private int gold;
@@ -24,9 +28,9 @@ public class ConcretePlayer implements Player{
     @Override
     public void move(int dice) {
         int id = field.id;
+        field.exit(this);
         field = fields.get((id + dice) % fields.size());
-        field.addPlayerNumber();
-        field.action(this);
+        field.entry(this);
     }
 
     @Override
@@ -50,7 +54,6 @@ public class ConcretePlayer implements Player{
     @Override
     public void buy() {
         if (!atStartField() && canBuy()) {
-
         }
 
     }
@@ -91,6 +94,9 @@ public class ConcretePlayer implements Player{
     public ConcretePlayer(List<Field> fields) {
         this.fields = fields;
         field = fields.get(0);
+        this.materials.put(RawMaterial.EGG, 0);
+        this.materials.put(RawMaterial.FLOUR, 0);
+        this.materials.put(RawMaterial.MILK, 0);
         this.status = new InitialStatus(this);
         this.gold = 20;
     }
