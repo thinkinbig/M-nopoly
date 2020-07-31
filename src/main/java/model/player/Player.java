@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface Player {
 
-    Dish sell();
-
     void move(int dice);
 
     void prepareMeal(Dish dish);

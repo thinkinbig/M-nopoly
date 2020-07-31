@@ -24,11 +24,6 @@ public class ConcretePlayer implements Player{
     private int gold;
 
     @Override
-    public Dish sell() {
-        return null;
-    }
-
-    @Override
     public void move(int dice) {
         int id = field.id;
         field.exit(this);
