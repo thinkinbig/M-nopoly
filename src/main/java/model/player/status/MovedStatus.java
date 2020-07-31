@@ -16,17 +16,23 @@ public class MovedStatus extends Status {
 
     @Override
     public void harvest() {
+        player.harvest();
+        super.next = new HarvestedStatus(player);
+        changeStatus();
 
     }
 
     @Override
     public void buy() {
-
+        player.buy();
+        super.next = new BuyingStatus(player);
+        changeStatus();
     }
 
     @Override
     public void turn() {
-
+        super.next = new EndStatus(player);
+        changeStatus();
     }
 
     @Override
@@ -34,9 +40,5 @@ public class MovedStatus extends Status {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public Status next() {
-        return null;
-    }
 
 }

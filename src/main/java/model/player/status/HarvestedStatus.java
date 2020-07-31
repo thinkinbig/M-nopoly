@@ -2,16 +2,15 @@ package model.player.status;
 
 import model.player.Player;
 
-public class InitialStatus extends Status {
+public class HarvestedStatus extends Status {
 
-    public InitialStatus(Player player) {
+    public HarvestedStatus(Player player) {
         super(player);
-        super.next = new MovedStatus(player);
     }
 
     @Override
     public void prepare() {
-        throw new UnsupportedOperationException();
+        player.prepareMeal();
     }
 
     @Override
@@ -26,13 +25,13 @@ public class InitialStatus extends Status {
 
     @Override
     public void turn() {
-        throw new UnsupportedOperationException();
+        super.next = new EndStatus(player);
+        changeStatus();
     }
 
     @Override
     public void roll(int dice) {
-        player.move(dice);
-        changeStatus();
+        throw new UnsupportedOperationException();
     }
 
 }

@@ -1,25 +1,35 @@
 package model.player;
 
-import model.material.RawMaterial;
+import model.player.playfield.Field;
+import model.player.playfield.StartField;
 import model.player.status.InitialStatus;
 import model.player.status.Status;
 import model.product.Product;
 
+import java.util.List;
+
 public class ConcretePlayer implements Player{
     private Status status;
+    private Field field;
+    private final List<Field> fields;
+    private static int counter = 0;
+    private final int id = counter++;
     private int gold;
 
-    public boolean buy(RawMaterial material) {
-        return false;
-    }
+    @Override
     public Product sell() {
         return null;
     }
-    public void move(int dice) {
 
+    @Override
+    public void move(int dice) {
+        int id = field.id;
+        field = fields.get((id + dice) % fields.size());
+        field.addPlayerNumber();
+        field.action(this);
     }
 
-    // if can prepareMeal, prepareMeal
+    @Override
     public void prepareMeal() {
         if (canPrepareMeal()) {
 
@@ -31,11 +41,56 @@ public class ConcretePlayer implements Player{
     }
 
     @Override
+    public void harvest() {
+        if (!atStartField() && canHarvest()) {
+
+        }
+    }
+
+    @Override
+    public void buy() {
+        if (!atStartField() && canBuy()) {
+
+        }
+
+    }
+
+    @Override
+    public boolean canBuy() {
+        return false;
+    }
+
+    @Override
+    public boolean canHarvest() {
+        return false;
+    }
+
+    @Override
+    public boolean atStartField() {
+        return field.getClass() == StartField.class;
+    }
+
+    @Override
+    public void earnGold(int number) {
+        this.gold += number;
+    }
+
+    @Override
+    public void useGold(int number) {
+        if (gold - number >= 0)
+            this.gold -= number;
+        else
+            throw new IllegalArgumentException();
+    }
+
+    @Override
     public final void setStatus(Status status) {
         this.status = status;
     }
 
-    public ConcretePlayer() {
+    public ConcretePlayer(List<Field> fields) {
+        this.fields = fields;
+        field = fields.get(0);
         this.status = new InitialStatus(this);
         this.gold = 20;
     }

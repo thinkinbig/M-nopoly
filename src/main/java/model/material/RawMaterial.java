@@ -1,4 +1,5 @@
 package model.material;
 
-public interface RawMaterial {
+public enum RawMaterial {
+    EGG, MILK, FLOUR;
 }

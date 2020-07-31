@@ -2,11 +2,10 @@ package model.player.status;
 
 import model.player.Player;
 
-public class InitialStatus extends Status {
+public class BuyingStatus extends Status{
 
-    public InitialStatus(Player player) {
+    public BuyingStatus(Player player) {
         super(player);
-        super.next = new MovedStatus(player);
     }
 
     @Override
@@ -21,18 +20,17 @@ public class InitialStatus extends Status {
 
     @Override
     public void buy() {
-        throw new UnsupportedOperationException();
+        player.buy();
     }
 
     @Override
     public void turn() {
-        throw new UnsupportedOperationException();
+        super.next = new EndStatus(player);
+        changeStatus();
     }
 
     @Override
     public void roll(int dice) {
-        player.move(dice);
-        changeStatus();
+        throw new UnsupportedOperationException();
     }
-
 }
