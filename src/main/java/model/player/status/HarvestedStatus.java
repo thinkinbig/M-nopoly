@@ -9,11 +9,6 @@ public class HarvestedStatus extends Status {
     }
 
     @Override
-    public void prepare() {
-        player.prepareMeal();
-    }
-
-    @Override
     public void harvest() {
         throw new UnsupportedOperationException();
     }

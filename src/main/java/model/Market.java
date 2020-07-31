@@ -1,32 +1,37 @@
 package model;
 
+import model.product.RawMaterial;
+import model.util.Stack;
+
 public class Market {
-    private static final Stack<RawMaterial> eggs = new Stack<>();
-    private static final Stack<RawMaterial> milks = new Stack<>();
-    private static final Stack<RawMaterial> flours = new Stack<>();
+    private static final Stack[] stacks = {
+            new Stack(RawMaterial.EGG),
+            new Stack(RawMaterial.MILK),
+            new Stack(RawMaterial.FLOUR)
+    };
 
-
-    public static int getEggPrice() {
-        return eggs.pop();
+    public static void sell(RawMaterial material) {
+        getStack(material).pop();
     }
 
-    public static int getMilkPrice() {
-        return milks.pop();
+    public static int getPrice(RawMaterial material) {
+        return getStack(material).getPrice();
     }
 
-    public static int getFlourPrice() {
-        return flours.pop();
+    public static void addMaterial(RawMaterial material) {
+        getStack(material).push(material);
     }
 
-    public static void addEgg() {
-        eggs.push(RawMaterial.EGG);
+    public static boolean stackFull(RawMaterial material) {
+        return getStack(material).isFull();
     }
 
-    public static void addMilk() {
-        milks.push(RawMaterial.MILK);
-    }
-
-    public static void addFlour() {
-        flours.push(RawMaterial.FLOUR);
+    private static Stack getStack(RawMaterial material) {
+        for (Stack s : stacks) {
+            if (s.getType() == material) {
+                return s;
+            }
+        }
+        return null;
     }
 }

@@ -1,6 +1,6 @@
 package model.player.playfield;
 
-import model.RawMaterial;
+import model.product.RawMaterial;
 import model.player.Player;
 
 public abstract class Field {

@@ -1,6 +1,5 @@
 package model.player.status;
 
-
 import model.player.Player;
 
 public class MovedStatus extends Status {
@@ -9,24 +8,21 @@ public class MovedStatus extends Status {
         super(player);
     }
 
-    @Override
-    public void prepare() {
-        player.prepareMeal();
-    }
 
     @Override
     public void harvest() {
-        player.harvest();
-        super.next = new HarvestedStatus(player);
-        changeStatus();
-
+        if (player.addRawToMarket()) {
+            super.next = new HarvestedStatus(player);
+            changeStatus();
+        }
     }
 
     @Override
     public void buy() {
-        player.buy();
-        super.next = new BuyingStatus(player);
-        changeStatus();
+        if (player.addMaterial()) {
+            super.next = new BuyingStatus(player);
+            changeStatus();
+        }
     }
 
     @Override

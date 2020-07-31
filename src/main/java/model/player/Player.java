@@ -1,20 +1,23 @@
 package model.player;
 
+import model.product.RawMaterial;
 import model.player.playfield.Field;
 import model.player.status.Status;
-import model.product.Product;
+import model.product.Dish;
 
 import java.util.List;
 
 public interface Player {
 
-    Product sell();
+    Dish sell();
 
     void move(int dice);
 
-    void prepareMeal();
+    void prepareMeal(Dish dish);
 
-    boolean canPrepareMeal();
+    boolean canPrepareMeal(Dish dish);
+
+    void setPrepared(Dish dish);
 
     void harvest();
 
@@ -22,13 +25,17 @@ public interface Player {
 
     boolean canBuy();
 
-    boolean canHarvest();
-
-    boolean atStartField();
+    boolean canHarvest(RawMaterial material);
 
     void earnGold(int number);
 
     void useGold(int number);
+
+    boolean addMaterial();
+
+    void reduceMaterial(RawMaterial material, int number);
+
+    boolean addRawToMarket();
 
     void setStatus(Status status);
 

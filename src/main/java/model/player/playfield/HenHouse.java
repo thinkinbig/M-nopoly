@@ -1,14 +1,9 @@
 package model.player.playfield;
 
-import model.RawMaterial;
-import model.player.Player;
+import model.product.RawMaterial;
 
 public class HenHouse extends Field {
 
-    @Override
-    public void entry(Player player) {
-
-    }
 
     @Override
     public RawMaterial getMaterial() {

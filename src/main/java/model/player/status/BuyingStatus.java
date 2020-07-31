@@ -1,6 +1,7 @@
 package model.player.status;
 
 import model.player.Player;
+import model.product.Dish;
 
 public class BuyingStatus extends Status{
 
@@ -9,7 +10,7 @@ public class BuyingStatus extends Status{
     }
 
     @Override
-    public void prepare() {
+    public void prepare(Dish dish) {
         throw new UnsupportedOperationException();
     }
 
@@ -20,7 +21,7 @@ public class BuyingStatus extends Status{
 
     @Override
     public void buy() {
-        player.buy();
+        player.addMaterial();
     }
 
     @Override

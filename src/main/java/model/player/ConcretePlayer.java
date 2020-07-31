@@ -1,11 +1,12 @@
 package model.player;
 
-import model.RawMaterial;
+import model.Market;
+import model.product.RawMaterial;
 import model.player.playfield.Field;
 import model.player.playfield.StartField;
 import model.player.status.InitialStatus;
 import model.player.status.Status;
-import model.product.Product;
+import model.product.Dish;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -15,13 +16,15 @@ public class ConcretePlayer implements Player{
     private Status status;
     private Field field;
     private final List<Field> fields;
+    private final Map<Dish, Boolean> dishes = new EnumMap<>(Dish.class);
     private final Map<RawMaterial, Integer> materials = new EnumMap<>(RawMaterial.class);
     private static int counter = 0;
+    private static final int PRICE = 25;
     private final int id = counter++;
     private int gold;
 
     @Override
-    public Product sell() {
+    public Dish sell() {
         return null;
     }
 
@@ -34,43 +37,38 @@ public class ConcretePlayer implements Player{
     }
 
     @Override
-    public void prepareMeal() {
-        if (canPrepareMeal()) {
-
-        }
+    public void prepareMeal(Dish dish) {
+        status.prepare(dish);
     }
 
-    public boolean canPrepareMeal() {
-        return false;
+    @Override
+    public boolean canPrepareMeal(Dish dish) {
+        int flour = dish.flour;
+        int egg = dish.egg;
+        int milk = dish.milk;
+        return flour <= materials.get(RawMaterial.FLOUR)
+                && egg <= materials.get(RawMaterial.EGG)
+                && milk <= materials.get(RawMaterial.MILK);
     }
 
     @Override
     public void harvest() {
-        if (!atStartField() && canHarvest()) {
-
-        }
+        status.harvest();
     }
 
     @Override
     public void buy() {
-        if (!atStartField() && canBuy()) {
-        }
-
+        status.buy();
     }
 
     @Override
     public boolean canBuy() {
-        return false;
+        return gold >= field.getMaterial().getPrice();
     }
 
     @Override
-    public boolean canHarvest() {
-        return false;
-    }
-
-    @Override
-    public boolean atStartField() {
-        return field.getClass() == StartField.class;
+    public boolean canHarvest(RawMaterial material) {
+        return Market.stackFull(material);
     }
 
     @Override
@@ -87,6 +85,39 @@ public class ConcretePlayer implements Player{
     }
 
     @Override
+    public boolean addMaterial() {
+        if (field.getClass() == StartField.class || !canBuy())
+            return false;
+        else {
+            RawMaterial material = field.getMaterial();
+            int price = material.getPrice();
+            int number = materials.get(material);
+            useGold(price);
+            materials.put(material, number + 1);
+            return true;
+        }
+    }
+
+    @Override
+    public void reduceMaterial(RawMaterial material, int number) {
+        int num = materials.get(material);
+        if (num >= number)
+            materials.put(material, number - num);
+        else
+            throw new IllegalArgumentException();
+    }
+
+    @Override
+    public boolean addRawToMarket() {
+        if (field.getClass() == StartField.class && !canHarvest(field.getMaterial()))
+            return false;
+        else {
+            Market.addMaterial(field.getMaterial());
+            return true;
+        }
+    }
+
+    @Override
     public final void setStatus(Status status) {
         this.status = status;
     }
@@ -94,10 +125,30 @@ public class ConcretePlayer implements Player{
     public ConcretePlayer(List<Field> fields) {
         this.fields = fields;
         field = fields.get(0);
-        this.materials.put(RawMaterial.EGG, 0);
-        this.materials.put(RawMaterial.FLOUR, 0);
-        this.materials.put(RawMaterial.MILK, 0);
+        for (RawMaterial material : RawMaterial.values()) {
+            this.materials.put(material, 0);
+        }
+
+        for (Dish dish : Dish.values()) {
+            this.dishes.put(dish, false);
+        }
+
         this.status = new InitialStatus(this);
         this.gold = 20;
+    }
+
+    @Override
+    public void setPrepared(Dish dish) {
+        boolean flag = true;
+        for (Dish d : dishes.keySet()) {
+            if (d == dish) {
+                dishes.put(d, true);
+            }
+            flag = dishes.get(d) && flag;
+        }
+
+        if (flag) {
+            earnGold(PRICE);
+        }
     }
 }
