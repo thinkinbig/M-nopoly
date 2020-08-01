@@ -16,7 +16,7 @@ public class HarvestedStatus extends Status {
     }
 
     @Override
-    public int buy(RawMaterial material) {
+    public void buy(RawMaterial material) {
         throw new UnsupportedOperationException();
     }
 

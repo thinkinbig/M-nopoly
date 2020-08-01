@@ -50,8 +50,8 @@ public class ConcretePlayer implements Player{
     }
 
     @Override
-    public int buy(RawMaterial material) {
-        return status.buy(material);
+    public void buy(RawMaterial material) {
+        status.buy(material);
     }
 
     @Override

@@ -22,9 +22,8 @@ public class BuyingStatus extends Status{
     }
 
     @Override
-    public int buy(RawMaterial material) {
+    public void buy(RawMaterial material) {
         player.addMaterial(material);
-        return 0;
     }
 
     @Override

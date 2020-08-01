@@ -20,7 +20,7 @@ public interface Player extends Subject {
 
     RawMaterial harvest();
 
-    int buy(RawMaterial material);
+    void buy(RawMaterial material);
 
     boolean canBuy(RawMaterial material);
 

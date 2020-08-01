@@ -10,7 +10,7 @@ public abstract class Status {
     protected Status next;
 
     public abstract void harvest();
-    public abstract int buy(RawMaterial material);
+    public abstract void buy(RawMaterial material);
     public abstract void turn();
     public abstract Field roll(int dice);
 

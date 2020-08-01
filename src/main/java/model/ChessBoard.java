@@ -56,12 +56,14 @@ public class ChessBoard implements Observer, Model {
 
     @Override
     public int buy(RawMaterial material) {
-        return current.buy(material);
+        current.buy(material);
+        return current.gold();
     }
 
     @Override
     public int prepare(Dish dish) {
-        return 0;
+        current.prepareMeal(dish);
+        return current.gold();
     }
 
     @Override
