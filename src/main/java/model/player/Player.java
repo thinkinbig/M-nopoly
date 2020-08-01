@@ -3,7 +3,7 @@ package model.player;
 import model.product.RawMaterial;
 import model.player.playfield.Field;
 import model.player.status.Status;
-import model.product.Dish;
+import model.product.Recipe;
 import util.Subject;
 
 import java.util.List;
@@ -12,11 +12,11 @@ public interface Player extends Subject {
 
     Field roll(int dice);
 
-    void prepareMeal(Dish dish);
+    void prepareMeal(Recipe recipe);
 
-    boolean canPrepareMeal(Dish dish);
+    boolean canPrepareMeal(Recipe recipe);
 
-    void setPrepared(Dish dish);
+    void setPrepared(Recipe recipe);
 
     RawMaterial harvest();
 
@@ -44,7 +44,7 @@ public interface Player extends Subject {
 
     void turn();
 
-    Iterable<Dish> available();
+    Iterable<Recipe> available();
 
     Field move(int dice);
 

@@ -2,7 +2,7 @@ package model;
 
 import model.player.Player;
 import model.player.playfield.Field;
-import model.product.Dish;
+import model.product.Recipe;
 import model.product.RawMaterial;
 import util.Subject;
 
@@ -18,9 +18,9 @@ public interface Model extends Subject {
 
     int buy(RawMaterial material);
 
-    int prepare(Dish dish);
+    int prepare(Recipe recipe);
 
-    Iterable<Dish> available();
+    Iterable<Recipe> available();
 
     Map<RawMaterial, Integer> showMarket();
 

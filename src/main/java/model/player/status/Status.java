@@ -3,7 +3,7 @@ package model.player.status;
 import model.player.playfield.Field;
 import model.product.RawMaterial;
 import model.player.Player;
-import model.product.Dish;
+import model.product.Recipe;
 
 public abstract class Status {
     protected Player player;
@@ -18,13 +18,13 @@ public abstract class Status {
         player.setStatus(next);
     }
 
-    public void prepare(Dish dish) {
-        if (player.canPrepareMeal(dish)) {
-            player.reduceMaterial(RawMaterial.FLOUR, dish.flour);
-            player.reduceMaterial(RawMaterial.EGG, dish.egg);
-            player.reduceMaterial(RawMaterial.MILK, dish.milk);
-            player.setPrepared(dish);
-            player.earnGold(dish.profit);
+    public void prepare(Recipe recipe) {
+        if (player.canPrepareMeal(recipe)) {
+            player.reduceMaterial(RawMaterial.FLOUR, recipe.flour);
+            player.reduceMaterial(RawMaterial.EGG, recipe.egg);
+            player.reduceMaterial(RawMaterial.MILK, recipe.milk);
+            player.setPrepared(recipe);
+            player.earnGold(recipe.profit);
         }
     }
 

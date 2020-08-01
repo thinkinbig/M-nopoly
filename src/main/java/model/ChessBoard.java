@@ -2,7 +2,7 @@ package model;
 
 import model.player.Player;
 import model.player.playfield.Field;
-import model.product.Dish;
+import model.product.Recipe;
 import model.product.RawMaterial;
 import util.Observer;
 
@@ -61,13 +61,13 @@ public class ChessBoard implements Observer, Model {
     }
 
     @Override
-    public int prepare(Dish dish) {
-        current.prepareMeal(dish);
+    public int prepare(Recipe recipe) {
+        current.prepareMeal(recipe);
         return current.gold();
     }
 
     @Override
-    public Iterable<Dish> available() {
+    public Iterable<Recipe> available() {
         return current.available();
     }
 

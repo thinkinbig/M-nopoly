@@ -2,7 +2,7 @@ package model.player.status;
 
 import model.player.Player;
 import model.player.playfield.Field;
-import model.product.Dish;
+import model.product.Recipe;
 import model.product.RawMaterial;
 
 public class InitialStatus extends Status {
@@ -13,7 +13,7 @@ public class InitialStatus extends Status {
     }
 
     @Override
-    public void prepare(Dish dish) {
+    public void prepare(Recipe recipe) {
         throw new UnsupportedOperationException();
     }
 

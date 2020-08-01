@@ -1,6 +1,6 @@
 package model.product;
 
-public enum Dish {
+public enum Recipe {
     YOGURT(0, 0, 3, 8),
     MERINGUE(0, 3, 0, 9),
     BREAD(3, 0, 0, 10),
@@ -15,7 +15,7 @@ public enum Dish {
     public final int milk;
     public final int profit;
 
-    Dish(int flour, int egg, int milk, int profit) {
+    Recipe(int flour, int egg, int milk, int profit) {
         this.flour = flour;
         this.egg = egg;
         this.milk = milk;

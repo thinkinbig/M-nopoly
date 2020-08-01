@@ -6,7 +6,7 @@ import model.player.playfield.Field;
 import model.player.playfield.StartField;
 import model.player.status.InitialStatus;
 import model.player.status.Status;
-import model.product.Dish;
+import model.product.Recipe;
 import util.Observer;
 
 import java.util.*;
@@ -15,7 +15,7 @@ public class ConcretePlayer implements Player{
     private Status status;
     private Field field;
     private final List<Field> fields;
-    private final Map<Dish, Boolean> dishes = new EnumMap<>(Dish.class);
+    private final Map<Recipe, Boolean> dishes = new EnumMap<>(Recipe.class);
     private final Map<RawMaterial, Integer> materials = new EnumMap<>(RawMaterial.class);
     private Set<Observer> observers = new HashSet<>();
     private static int counter = 0;
@@ -29,15 +29,15 @@ public class ConcretePlayer implements Player{
     }
 
     @Override
-    public void prepareMeal(Dish dish) {
-        status.prepare(dish);
+    public void prepareMeal(Recipe recipe) {
+        status.prepare(recipe);
     }
 
     @Override
-    public boolean canPrepareMeal(Dish dish) {
-        int flour = dish.flour;
-        int egg = dish.egg;
-        int milk = dish.milk;
+    public boolean canPrepareMeal(Recipe recipe) {
+        int flour = recipe.flour;
+        int egg = recipe.egg;
+        int milk = recipe.milk;
         return flour <= materials.get(RawMaterial.FLOUR)
                 && egg <= materials.get(RawMaterial.EGG)
                 && milk <= materials.get(RawMaterial.MILK);
@@ -131,11 +131,11 @@ public class ConcretePlayer implements Player{
     }
 
     @Override
-    public Iterable<Dish> available() {
-        List<Dish> result = new ArrayList<>();
-        for (Dish dish : Dish.values()) {
-            if (this.canPrepareMeal(dish)) {
-                result.add(dish);
+    public Iterable<Recipe> available() {
+        List<Recipe> result = new ArrayList<>();
+        for (Recipe recipe : Recipe.values()) {
+            if (this.canPrepareMeal(recipe)) {
+                result.add(recipe);
             }
         }
         return result;
@@ -167,8 +167,8 @@ public class ConcretePlayer implements Player{
             this.materials.put(material, 0);
         }
 
-        for (Dish dish : Dish.values()) {
-            this.dishes.put(dish, false);
+        for (Recipe recipe : Recipe.values()) {
+            this.dishes.put(recipe, false);
         }
 
         this.status = new InitialStatus(this);
@@ -176,10 +176,10 @@ public class ConcretePlayer implements Player{
     }
 
     @Override
-    public void setPrepared(Dish dish) {
+    public void setPrepared(Recipe recipe) {
         boolean flag = true;
-        for (Dish d : dishes.keySet()) {
-            if (d == dish) {
+        for (Recipe d : dishes.keySet()) {
+            if (d == recipe) {
                 dishes.put(d, true);
             }
             flag = dishes.get(d) && flag;
