@@ -1,5 +1,6 @@
 package model.player.status;
 
+import model.player.playfield.Field;
 import model.product.RawMaterial;
 import model.player.Player;
 import model.product.Dish;
@@ -9,9 +10,9 @@ public abstract class Status {
     protected Status next;
 
     public abstract void harvest();
-    public abstract void buy();
+    public abstract int buy(RawMaterial material);
     public abstract void turn();
-    public abstract void roll(int dice);
+    public abstract Field roll(int dice);
 
     protected final void changeStatus() {
         player.setStatus(next);

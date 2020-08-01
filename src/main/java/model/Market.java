@@ -26,7 +26,7 @@ public class Market {
         return getStack(material).isFull();
     }
 
-    private static Stack getStack(RawMaterial material) {
+    public static Stack getStack(RawMaterial material) {
         for (Stack s : stacks) {
             if (s.getType() == material) {
                 return s;

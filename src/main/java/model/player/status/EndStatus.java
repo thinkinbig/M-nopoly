@@ -1,13 +1,16 @@
 package model.player.status;
 
 import model.player.Player;
+import model.player.playfield.Field;
 import model.product.Dish;
+import model.product.RawMaterial;
 
 public class EndStatus extends Status {
 
     public EndStatus(Player player) {
         super(player);
-        super.next = null;
+        player.notifyObservers();
+        super.next = new InitialStatus(player);
     }
 
     @Override
@@ -21,7 +24,7 @@ public class EndStatus extends Status {
     }
 
     @Override
-    public void buy() {
+    public int buy(RawMaterial material) {
         throw new UnsupportedOperationException();
     }
 
@@ -31,7 +34,7 @@ public class EndStatus extends Status {
     }
 
     @Override
-    public void roll(int dice) {
+    public Field roll(int dice) {
         throw new UnsupportedOperationException();
     }
 }

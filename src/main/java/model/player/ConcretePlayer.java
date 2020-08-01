@@ -7,10 +7,9 @@ import model.player.playfield.StartField;
 import model.player.status.InitialStatus;
 import model.player.status.Status;
 import model.product.Dish;
+import util.Observer;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ConcretePlayer implements Player{
     private Status status;
@@ -18,17 +17,15 @@ public class ConcretePlayer implements Player{
     private final List<Field> fields;
     private final Map<Dish, Boolean> dishes = new EnumMap<>(Dish.class);
     private final Map<RawMaterial, Integer> materials = new EnumMap<>(RawMaterial.class);
+    private Set<Observer> observers = new HashSet<>();
     private static int counter = 0;
     private static final int PRICE = 25;
-    private final int id = counter++;
+    public final int id = counter++;
     private int gold;
 
     @Override
-    public void move(int dice) {
-        int id = field.id;
-        field.exit(this);
-        field = fields.get((id + dice) % fields.size());
-        field.entry(this);
+    public Field roll(int dice) {
+        return status.roll(dice);
     }
 
     @Override
@@ -47,18 +44,19 @@ public class ConcretePlayer implements Player{
     }
 
     @Override
-    public void harvest() {
+    public RawMaterial harvest() {
         status.harvest();
+        return field.getMaterial();
     }
 
     @Override
-    public void buy() {
-        status.buy();
+    public int buy(RawMaterial material) {
+        return status.buy(material);
     }
 
     @Override
-    public boolean canBuy() {
-        return gold >= field.getMaterial().getPrice();
+    public boolean canBuy(RawMaterial material) {
+        return gold >= field.getMaterial().getPrice() && !Market.getStack(material).isEmpty();
     }
 
     @Override
@@ -80,15 +78,15 @@ public class ConcretePlayer implements Player{
     }
 
     @Override
-    public boolean addMaterial() {
-        if (field.getClass() == StartField.class || !canBuy())
+    public boolean addMaterial(RawMaterial material) {
+        if (field.getClass() == StartField.class || !canBuy(material))
             return false;
         else {
-            RawMaterial material = field.getMaterial();
             int price = material.getPrice();
             int number = materials.get(material);
             useGold(price);
             materials.put(material, number + 1);
+            Market.sell(material);
             return true;
         }
     }
@@ -107,7 +105,7 @@ public class ConcretePlayer implements Player{
         if (field.getClass() == StartField.class && !canHarvest(field.getMaterial()))
             return false;
         else {
-            Market.addMaterial(field.getMaterial());
+            field.getMaterial().add();
             return true;
         }
     }
@@ -115,6 +113,25 @@ public class ConcretePlayer implements Player{
     @Override
     public final void setStatus(Status status) {
         this.status = status;
+    }
+
+    @Override
+    public int id() {
+        return id;
+    }
+
+    @Override
+    public int gold() {
+        return gold;
+    }
+
+    @Override
+    public Field move(int dice) {
+        int id = field.id;
+        field.exit(this);
+        field = fields.get((id + dice) % fields.size());
+        field.entry(this);
+        return field;
     }
 
     public ConcretePlayer(List<Field> fields) {
@@ -146,4 +163,23 @@ public class ConcretePlayer implements Player{
             earnGold(PRICE);
         }
     }
+
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
+    }
+
+
 }

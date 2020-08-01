@@ -1,6 +1,7 @@
 package model.player.status;
 
 import model.player.Player;
+import model.product.RawMaterial;
 
 public class MovedStatus extends Status {
 
@@ -18,11 +19,12 @@ public class MovedStatus extends Status {
     }
 
     @Override
-    public void buy() {
-        if (player.addMaterial()) {
+    public int buy(RawMaterial material) {
+        if (player.addMaterial(material)) {
             super.next = new BuyingStatus(player);
             changeStatus();
         }
+        return player.gold();
     }
 
     @Override

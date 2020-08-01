@@ -4,12 +4,13 @@ import model.product.RawMaterial;
 import model.player.playfield.Field;
 import model.player.status.Status;
 import model.product.Dish;
+import util.Subject;
 
 import java.util.List;
 
-public interface Player {
+public interface Player extends Subject {
 
-    void move(int dice);
+    Field roll(int dice);
 
     void prepareMeal(Dish dish);
 
@@ -17,11 +18,11 @@ public interface Player {
 
     void setPrepared(Dish dish);
 
-    void harvest();
+    RawMaterial harvest();
 
-    void buy();
+    int buy(RawMaterial material);
 
-    boolean canBuy();
+    boolean canBuy(RawMaterial material);
 
     boolean canHarvest(RawMaterial material);
 
@@ -29,7 +30,7 @@ public interface Player {
 
     void useGold(int number);
 
-    boolean addMaterial();
+    boolean addMaterial(RawMaterial material);
 
     void reduceMaterial(RawMaterial material, int number);
 
@@ -37,7 +38,14 @@ public interface Player {
 
     void setStatus(Status status);
 
+    int id();
+
+    int gold();
+
+    Field move(int dice);
+
     static Player newPlayer(List<Field> fields) {
         return new ConcretePlayer(fields);
     }
+
 }

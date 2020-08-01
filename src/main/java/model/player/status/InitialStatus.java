@@ -1,7 +1,9 @@
 package model.player.status;
 
 import model.player.Player;
+import model.player.playfield.Field;
 import model.product.Dish;
+import model.product.RawMaterial;
 
 public class InitialStatus extends Status {
 
@@ -21,7 +23,7 @@ public class InitialStatus extends Status {
     }
 
     @Override
-    public void buy() {
+    public int buy(RawMaterial material) {
         throw new UnsupportedOperationException();
     }
 
@@ -31,9 +33,8 @@ public class InitialStatus extends Status {
     }
 
     @Override
-    public void roll(int dice) {
-        player.move(dice);
-        changeStatus();
+    public Field roll(int dice) {
+        return player.move(dice);
     }
 
 }
