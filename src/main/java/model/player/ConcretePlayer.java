@@ -126,12 +126,38 @@ public class ConcretePlayer implements Player{
     }
 
     @Override
+    public void turn() {
+        status.turn();
+    }
+
+    @Override
+    public Iterable<Dish> available() {
+        List<Dish> result = new ArrayList<>();
+        for (Dish dish : Dish.values()) {
+            if (this.canPrepareMeal(dish)) {
+                result.add(dish);
+            }
+        }
+        return result;
+    }
+
+    @Override
     public Field move(int dice) {
         int id = field.id;
         field.exit(this);
         field = fields.get((id + dice) % fields.size());
         field.entry(this);
         return field;
+    }
+
+    @Override
+    public Iterable<Integer> show() {
+        List<Integer> list = new LinkedList<>();
+        list.add(this.gold);
+        for (RawMaterial material : RawMaterial.values()) {
+            list.add(this.materials.get(material));
+        }
+        return list;
     }
 
     public ConcretePlayer(List<Field> fields) {

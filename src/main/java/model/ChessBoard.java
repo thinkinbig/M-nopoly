@@ -68,22 +68,23 @@ public class ChessBoard implements Observer, Model {
 
     @Override
     public Iterable<Dish> available() {
-        return null;
+        return current.available();
     }
 
     @Override
     public Map<RawMaterial, Integer> showMarket() {
-        return null;
+        return Market.showMarket();
     }
 
     @Override
-    public Map<RawMaterial, Integer> showPlayer(int number) {
-        return null;
+    public Iterable<Integer> showPlayer(int number) {
+        return current.show();
     }
 
     @Override
     public Player turn() {
-        return null;
+        current.turn();
+        return current;
     }
 
     @Override

@@ -3,7 +3,7 @@ package model.product;
 import model.Market;
 
 public enum RawMaterial {
-    EGG, MILK, FLOUR;
+    FLOUR, EGG, MILK;
 
 
     public final int getPrice() {

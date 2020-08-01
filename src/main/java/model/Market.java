@@ -3,6 +3,9 @@ package model;
 import model.product.RawMaterial;
 import model.util.Stack;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 public class Market {
     private static final Stack[] stacks = {
             new Stack(RawMaterial.EGG),
@@ -33,5 +36,13 @@ public class Market {
             }
         }
         return null;
+    }
+
+    public static Map<RawMaterial, Integer> showMarket() {
+        Map<RawMaterial, Integer> map = new EnumMap<>(RawMaterial.class);
+        for (Stack s : stacks) {
+            map.put(s.getType(), s.getPrice());
+        }
+        return map;
     }
 }

@@ -24,7 +24,7 @@ public interface Model extends Subject {
 
     Map<RawMaterial, Integer> showMarket();
 
-    Map<RawMaterial, Integer> showPlayer(int number);
+    Iterable<Integer> showPlayer(int number);
 
     Player turn();
 }

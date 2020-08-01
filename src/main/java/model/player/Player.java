@@ -42,7 +42,13 @@ public interface Player extends Subject {
 
     int gold();
 
+    void turn();
+
+    Iterable<Dish> available();
+
     Field move(int dice);
+
+    Iterable<Integer> show();
 
     static Player newPlayer(List<Field> fields) {
         return new ConcretePlayer(fields);
