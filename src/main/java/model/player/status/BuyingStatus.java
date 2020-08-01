@@ -2,18 +2,12 @@ package model.player.status;
 
 import model.player.Player;
 import model.player.playfield.Field;
-import model.product.Recipe;
 import model.product.RawMaterial;
 
 public class BuyingStatus extends Status{
 
     public BuyingStatus(Player player) {
         super(player);
-    }
-
-    @Override
-    public void prepare(Recipe recipe) {
-        throw new UnsupportedOperationException();
     }
 
     @Override
