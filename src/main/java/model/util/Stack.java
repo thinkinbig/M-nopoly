@@ -32,6 +32,8 @@ public class Stack {
 
     public Stack(RawMaterial raw) {
         this.raw = raw;
+        this.push(raw);
+        this.push(raw);
     }
 
     public RawMaterial getType() {
