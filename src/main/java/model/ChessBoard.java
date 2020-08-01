@@ -6,31 +6,28 @@ import model.product.Recipe;
 import model.product.RawMaterial;
 import util.Observer;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ChessBoard implements Observer, Model {
     private List<Field> fields;
     private Set<Observer> observers = new HashSet<>();
-    private Player[] players;
+    private List<Player> players;
     private Player current;
 
     public ChessBoard(List<Field> fields, int playerNumber) {
         this.fields = fields;
-        players = new Player[playerNumber];
+        players = new ArrayList<>(playerNumber);
         for (int i = 0; i < playerNumber; ++i) {
-            players[i] = Player.newPlayer(fields);
+            players.set(i, Player.newPlayer(fields));
         }
-        current = players[0];
+        current = players.get(0);
     }
 
 
     @Override
     public void update() {
         int id = current.id();
-        id = (id + 1) % players.length;
+        id = (id + 1) % players.size();
         for (Player player : players) {
             if (id == player.id()) {
                 current = player;
