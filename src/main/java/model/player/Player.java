@@ -1,5 +1,6 @@
 package model.player;
 
+import model.player.mode.Strategy;
 import model.product.RawMaterial;
 import model.player.playfield.Field;
 import model.player.status.Status;
@@ -48,10 +49,16 @@ public interface Player extends Subject {
 
     Field move(int dice);
 
-    Iterable<Integer> show();
+    List<Integer> show();
 
-    static Player newPlayer(List<Field> fields) {
-        return new ConcretePlayer(fields);
+    String toString();
+
+    boolean win();
+
+    void setStrategy(Strategy strategy);
+
+    static Player newPlayer(Strategy strategy, List<Field> fields) {
+        return new ConcretePlayer(strategy, fields);
     }
 
 }

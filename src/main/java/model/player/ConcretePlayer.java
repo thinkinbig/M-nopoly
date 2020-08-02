@@ -1,6 +1,7 @@
 package model.player;
 
 import model.Market;
+import model.player.mode.Strategy;
 import model.product.RawMaterial;
 import model.player.playfield.Field;
 import model.player.playfield.StartField;
@@ -13,6 +14,7 @@ import java.util.*;
 
 public class ConcretePlayer implements Player{
     private Status status;
+    private Strategy win;
     private Field field;
     private final List<Field> fields;
     private final Map<Recipe, Boolean> dishes = new EnumMap<>(Recipe.class);
@@ -22,9 +24,13 @@ public class ConcretePlayer implements Player{
     private static final int PRICE = 25;
     public final int id = counter++;
     private int gold;
+    private static final int DICE_MIN = 1;
+    private static final int DICE_MAX = 6;
 
     @Override
     public Field roll(int dice) {
+        if (dice < DICE_MIN || dice > DICE_MAX)
+            throw new IllegalArgumentException("dice number not valid");
         return status.roll(dice);
     }
 
@@ -151,7 +157,7 @@ public class ConcretePlayer implements Player{
     }
 
     @Override
-    public Iterable<Integer> show() {
+    public List<Integer> show() {
         List<Integer> list = new LinkedList<>();
         list.add(this.gold);
         for (RawMaterial material : RawMaterial.values()) {
@@ -160,7 +166,8 @@ public class ConcretePlayer implements Player{
         return list;
     }
 
-    public ConcretePlayer(List<Field> fields) {
+    protected ConcretePlayer(Strategy win, List<Field> fields) {
+        this.win = win;
         this.fields = fields;
         field = fields.get(0);
         for (RawMaterial material : RawMaterial.values()) {
@@ -205,6 +212,21 @@ public class ConcretePlayer implements Player{
         for (Observer observer : observers) {
             observer.update();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "P" + id;
+    }
+
+    @Override
+    public boolean win() {
+        return win.win(this);
+    }
+
+    @Override
+    public void setStrategy(Strategy strategy) {
+        this.win = strategy;
     }
 
 

@@ -1,8 +1,6 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -17,14 +15,15 @@ public class InitializedRules {
     private static final String[] PLAY_FIELDS = {START, MILL, HEN_HOUSE, MEADOW};
     private static final int COUNT = 4;
 
-    private String[] strings;
+    private final String[] strings;
 
     /**
      * the first element must be StartField
      * @return true when the first is start field
      */
     public boolean rule1() {
-        return START.equals(strings[0].trim());
+        return START.equals(strings[0].trim()) &&
+                !List.of(noStart()).stream().collect(Collectors.toSet()).contains(START);
     }
 
     /**
@@ -32,31 +31,20 @@ public class InitializedRules {
      * @return true when they are included
      */
     public boolean rule2() {
-        List<String> list = new ArrayList<>();
-        for (String s : strings) {
-            s = s.trim();
-            list.add(s);
-        }
-        final Set<String> set = list.stream().collect(Collectors.toSet());
-        return List.of(PLAY_FIELDS).stream().allMatch((s -> set.contains(s)));
+        return List.of(PLAY_FIELDS).stream().
+                allMatch((s -> List.of(strings).stream().collect(Collectors.toSet()).contains(s)));
     }
 
     /**
      * two same fields are not allowed neighboured
      * @return true when they are not neighboured
      */
-    public boolean rule3() {
+    public boolean rule3() throws ExecutionException, InterruptedException {
         ExecutorService exec = Executors.newCachedThreadPool();
         String[] strs = noStart();
         for (int i = 0; i < strs.length; i++) {
-            try {
-                boolean temp = exec.submit(new RuleChecker3(i, noStart())).get();
-                if (temp == false) return false;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
+            boolean temp = exec.submit(new RuleChecker3(i, noStart())).get();
+            if (temp == false) return false;
         }
         exec.shutdown();
         return true;
@@ -66,25 +54,19 @@ public class InitializedRules {
      * the same fields must be shrank within 4 fields
      * @return true when within four fields
      */
-    public boolean rule4(){
+    public boolean rule4() throws ExecutionException, InterruptedException {
         int size = noStart().length;
         ExecutorService exec = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         for (int i = 0; i < size; i++) {
-            try {
-                boolean temp = exec.submit(new RuleChecker4(noStart(), i)).get();
-                if (temp == false) return false;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
+            boolean temp = exec.submit(new RuleChecker4(noStart(), i)).get();
+            if (temp == false) return false;
         }
         exec.shutdown();
         return true;
     }
 
 
-    public String[] noStart() {
+    private String[] noStart() {
         String[] strs = new String[strings.length - 1];
         for (int i = 1; i < strings.length; i++) {
             strs[i - 1] = strings[i];
@@ -146,7 +128,7 @@ public class InitializedRules {
         }
     }
 
-    public InitializedRules(String fields) {
-        this.strings = fields.trim().split(";");
+    public InitializedRules(String[] strings) {
+        this.strings = strings;
     }
 }

@@ -22,6 +22,8 @@ public abstract class Field {
         this.players--;
     }
 
+    public abstract String toString();
+
     public abstract RawMaterial getMaterial();
 
 

@@ -21,6 +21,5 @@ public class StartField extends Field {
         return "S";
     }
 
-    protected StartField() {
-    }
+    protected StartField() { }
 }

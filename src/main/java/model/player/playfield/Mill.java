@@ -15,6 +15,5 @@ public class Mill extends Field {
         return "M";
     }
 
-    protected Mill() {
-    }
+    protected Mill() { }
 }

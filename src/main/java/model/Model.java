@@ -6,6 +6,7 @@ import model.product.Recipe;
 import model.product.RawMaterial;
 import util.Subject;
 
+import java.util.List;
 import java.util.Map;
 
 public interface Model extends Subject {
@@ -24,7 +25,13 @@ public interface Model extends Subject {
 
     Map<RawMaterial, Integer> showMarket();
 
-    Iterable<Integer> showPlayer(int number);
+    List<Integer> showPlayer(int number);
 
     Player turn();
+
+    String judgeWin();
+
+    Player getPlayer(int number);
+
+    void quit();
 }

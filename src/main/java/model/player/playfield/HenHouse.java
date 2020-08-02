@@ -14,9 +14,7 @@ public class HenHouse extends Field {
         return "H";
     }
 
-    protected HenHouse() {
-
-    }
+    protected HenHouse() { }
 
 
 }

@@ -10,8 +10,7 @@ public class Meadow extends Field {
         return RawMaterial.MILK;
     }
 
-    protected Meadow() {
-    }
+    protected Meadow() { }
 
     @Override
     public String toString() {
