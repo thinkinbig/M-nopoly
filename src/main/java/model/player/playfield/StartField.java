@@ -16,4 +16,11 @@ public class StartField extends Field {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public String toString() {
+        return "S";
+    }
+
+    protected StartField() {
+    }
 }

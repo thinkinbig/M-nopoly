@@ -1,6 +1,6 @@
 package view;
 
-import control.Controller;
+import controller.Controller;
 import view.console.ConsoleView;
 
 public interface View {

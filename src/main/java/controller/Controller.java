@@ -1,8 +1,9 @@
-package control;
+package controller;
 
 import util.Observer;
 
 public interface Controller extends Observer {
+    void initialize(String fields);
     String requestRoll(String number);
     String requestHarvest();
     String requestBuy(String resource);

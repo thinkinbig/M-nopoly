@@ -9,4 +9,12 @@ public class Mill extends Field {
     public RawMaterial getMaterial() {
         return RawMaterial.FLOUR;
     }
+
+    @Override
+    public String toString() {
+        return "M";
+    }
+
+    protected Mill() {
+    }
 }

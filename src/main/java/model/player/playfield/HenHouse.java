@@ -9,4 +9,14 @@ public class HenHouse extends Field {
         return RawMaterial.EGG;
     }
 
+    @Override
+    public String toString() {
+        return "H";
+    }
+
+    protected HenHouse() {
+
+    }
+
+
 }

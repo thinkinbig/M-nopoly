@@ -8,7 +8,7 @@ public abstract class Field {
     public final int id = counter++;
     protected int players = 0;
 
-    public Field() {
+    protected Field() {
     }
 
     public void entry(Player player) {
