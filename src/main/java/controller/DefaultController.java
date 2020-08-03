@@ -38,12 +38,12 @@ public class DefaultController implements Controller {
                 throw new IllegalArgumentException("fields parameter not meet the requirements");
         }
         List<Field> playFields = new LinkedList<>();
-        int playersNumber = Integer.parseInt(players);
-        if (playersNumber <= 0)
-            throw new IllegalArgumentException("player numbers must be bigger than 0");
         for (String s : strings) {
             playFields.add(FieldFactory.map(s));
         }
+        int playersNumber = Integer.parseInt(players);
+        if (playersNumber <= 0)
+            throw new IllegalArgumentException("player numbers must be bigger than 0");
         model = new ChessBoard(playFields, playersNumber);
         initialized = true;
     }
@@ -138,6 +138,11 @@ public class DefaultController implements Controller {
     @Override
     public boolean isInit() {
         return initialized;
+    }
+
+    @Override
+    public boolean isQuited() {
+        return model.isQuited();
     }
 
     public DefaultController(Model model, View view) {

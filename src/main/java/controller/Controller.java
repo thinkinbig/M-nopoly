@@ -19,6 +19,7 @@ public interface Controller {
     String requestJudgeWin();
     void draw(String message);
     boolean isInit();
+    boolean isQuited();
 
     static Controller byDefault(Model model, View view) {
         return new DefaultController(model, view);
