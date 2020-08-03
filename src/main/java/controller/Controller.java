@@ -1,12 +1,11 @@
 package controller;
 
 import model.Model;
-import util.Observer;
 import view.View;
 
 import java.lang.reflect.InvocationTargetException;
 
-public interface Controller extends Observer {
+public interface Controller {
     void initialize(String player, String fields) throws InvocationTargetException, IllegalAccessException;
     String requestRoll(String number);
     String requestHarvest();
@@ -17,9 +16,11 @@ public interface Controller extends Observer {
     String requestShowPlayer(String player);
     String requestTurn();
     void requestQuit();
-    String judgeWin();
+    String requestJudgeWin();
 
     static Controller byDefault(Model model, View view) {
         return new DefaultController(model, view);
     }
+
+    static Controller byConsole(Model model, View view) { return new RegexController(model, view); }
 }

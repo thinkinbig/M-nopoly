@@ -17,15 +17,15 @@ public class TestRules {
     private String test_string7 = "S;H;M;C;H;C";
     private String test_string8 = "S;M;H;M;S;H";
     private String test_string9 = "S;M;C;H";
-    private InitializedRules i1 = new InitializedRules(test_string1);
-    private InitializedRules i2 = new InitializedRules(test_string2);
-    private InitializedRules i3 = new InitializedRules(test_string3);
-    private InitializedRules i4 = new InitializedRules(test_string4);
-    private InitializedRules i5 = new InitializedRules(test_string5);
-    private InitializedRules i6 = new InitializedRules(test_string6);
-    private InitializedRules i7 = new InitializedRules(test_string7);
-    private InitializedRules i8 = new InitializedRules(test_string8);
-    private InitializedRules i9 = new InitializedRules(test_string9);
+    private InitializedRules i1 = new InitializedRules(test_string1.split(";"));
+    private InitializedRules i2 = new InitializedRules(test_string2.split(";"));
+    private InitializedRules i3 = new InitializedRules(test_string3.split(";"));
+    private InitializedRules i4 = new InitializedRules(test_string4.split(";"));
+    private InitializedRules i5 = new InitializedRules(test_string5.split(";"));
+    private InitializedRules i6 = new InitializedRules(test_string6.split(";"));
+    private InitializedRules i7 = new InitializedRules(test_string7.split(";"));
+    private InitializedRules i8 = new InitializedRules(test_string8.split(";"));
+    private InitializedRules i9 = new InitializedRules(test_string9.split(";"));
 
     @Test
     public final void test_rule1_true() {

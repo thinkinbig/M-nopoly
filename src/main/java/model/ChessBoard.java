@@ -59,7 +59,6 @@ public class ChessBoard implements Observer, Model {
         if (isQuited)
             throw new UnsupportedOperationException("the game is over");
         RawMaterial raw = current.harvest();
-        notifyObservers();
         return raw;
     }
 
@@ -76,7 +75,6 @@ public class ChessBoard implements Observer, Model {
         if (isQuited)
             throw new UnsupportedOperationException("the game is over");
         current.prepareMeal(recipe);
-        notifyObservers();
         return current.gold();
     }
 
@@ -112,7 +110,7 @@ public class ChessBoard implements Observer, Model {
     @Override
     public String judgeWin() {
         if (current.win()) {
-            this.notifyObservers();
+            quit();
             return current.toString() + "wins";
         }
         return null;
@@ -121,23 +119,6 @@ public class ChessBoard implements Observer, Model {
     @Override
     public void quit() {
         isQuited = true;
-    }
-
-    @Override
-    public void addObserver(Observer observer) {
-        observers.add(observer);
-    }
-
-    @Override
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for (Observer observer : observers) {
-            observer.update();
-        }
     }
 
     @Override

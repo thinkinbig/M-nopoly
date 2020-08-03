@@ -9,7 +9,7 @@ import util.Subject;
 import java.util.List;
 import java.util.Map;
 
-public interface Model extends Subject {
+public interface Model {
 
     Field roll(int number);
 

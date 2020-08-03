@@ -37,6 +37,8 @@ public class DefaultController implements Controller {
         }
         List<Field> playFields = new LinkedList<>();
         int playersNumber = Integer.parseInt(players);
+        if (playersNumber <= 0)
+            throw new IllegalArgumentException("player numbers must be bigger than 0");
         for (String s : strings) {
             playFields.add(FieldFactory.map(s));
         }
@@ -55,7 +57,10 @@ public class DefaultController implements Controller {
     public String requestHarvest() {
         String string1 = model.harvest().toString();
         String string2 = Integer.toString(model.gold());
-        return string1 + CONCAT + string2;
+        String string3 = requestJudgeWin();
+        String result = string1 + CONCAT + string2;
+        if (result != null) result = result + "\n" + string3;
+        return result;
     }
 
     @Override
@@ -68,7 +73,7 @@ public class DefaultController implements Controller {
     @Override
     public String requestPrepare(String recipe) {
         String string1 = Integer.toString(model.prepare(Recipe.map(recipe)));
-        String string2 = model.judgeWin();
+        String string2 = requestJudgeWin();
         return (string2 == null) ? string1 : string1 + "\n" + string2;
     }
 
@@ -118,13 +123,8 @@ public class DefaultController implements Controller {
     }
 
     @Override
-    public String judgeWin() {
-        return null;
-    }
-
-    @Override
-    public void update() {
-        this.requestQuit();
+    public String requestJudgeWin() {
+        return model.judgeWin();
     }
 
     public DefaultController(Model model, View view) {
