@@ -60,6 +60,9 @@ public class ConsoleView implements View, ConsoleFilter {
         scanner.close();
     }
 
+    public ConsoleView() {
+    }
+
     @Override
     public void showUp(String message) {
         System.out.println(message);

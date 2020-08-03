@@ -2,7 +2,6 @@ package controller;
 
 import model.ChessBoard;
 import model.Model;
-import org.junit.Test;
 import org.mockito.Mockito;
 import view.View;
 import view.console.ConsoleView;

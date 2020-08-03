@@ -22,7 +22,9 @@ public class ChessBoard implements Observer, Model {
         this.fields = fields;
         players = new ArrayList<>(playerNumber);
         for (int i = 0; i < playerNumber; ++i) {
-            players.set(i, Player.newPlayer(win, fields));
+            Player player = Player.newPlayer(win, fields);
+            player.addObserver(this);
+            players.set(i, player);
         }
         current = players.get(0);
     }
@@ -103,6 +105,8 @@ public class ChessBoard implements Observer, Model {
 
     @Override
     public Player turn() {
+        if (isQuited)
+            throw new UnsupportedOperationException("the game is over");
         current.turn();
         return current;
     }
