@@ -10,7 +10,7 @@ public class ConsoleView implements View {
     }
 
     @Override
-    public void showUp() {
-        // Console always on the top
+    public void showUp(String message) {
+        System.out.println(message);
     }
 }

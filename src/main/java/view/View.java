@@ -6,7 +6,7 @@ import view.console.ConsoleView;
 public interface View {
     void initialize(Controller controller);
 
-    void showUp();
+    void showUp(String message);
 
     static View createConsoleView() {
         return new ConsoleView();

@@ -23,7 +23,8 @@ public class DefaultController implements Controller {
     private static final int MAX = 25;
 
     @Override
-    public void initialize(String players, String fields) throws InvocationTargetException, IllegalAccessException {
+    public void initialize(String players, String fields)
+            throws InvocationTargetException, IllegalAccessException {
         String[] strings = fields.split(";");
         for (int i = 0; i < strings.length; i++) {
             strings[i] = strings[i].trim();
@@ -125,6 +126,11 @@ public class DefaultController implements Controller {
     @Override
     public String requestJudgeWin() {
         return model.judgeWin();
+    }
+
+    @Override
+    public void draw(String message) {
+        view.showUp(message);
     }
 
     public DefaultController(Model model, View view) {
