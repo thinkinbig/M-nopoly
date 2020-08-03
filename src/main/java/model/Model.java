@@ -34,4 +34,6 @@ public interface Model {
     Player getPlayer(int number);
 
     void quit();
+
+    boolean isQuited();
 }

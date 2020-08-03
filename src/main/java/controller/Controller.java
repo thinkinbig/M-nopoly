@@ -18,6 +18,7 @@ public interface Controller {
     void requestQuit();
     String requestJudgeWin();
     void draw(String message);
+    boolean isInit();
 
     static Controller byDefault(Model model, View view) {
         return new DefaultController(model, view);

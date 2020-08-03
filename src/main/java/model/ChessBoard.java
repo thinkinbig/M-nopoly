@@ -122,6 +122,11 @@ public class ChessBoard implements Observer, Model {
     }
 
     @Override
+    public boolean isQuited() {
+        return isQuited;
+    }
+
+    @Override
     public Player getPlayer(int number) {
         return players.get(number - 1);
     }

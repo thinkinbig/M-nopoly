@@ -18,6 +18,7 @@ public class DefaultController implements Controller {
     private InitializedRules rules;
     private Model model;
     private View view;
+    private boolean initialized = false;
     private static final String CONCAT = ";";
     private static final int MIN = 4;
     private static final int MAX = 25;
@@ -44,6 +45,7 @@ public class DefaultController implements Controller {
             playFields.add(FieldFactory.map(s));
         }
         model = new ChessBoard(playFields, playersNumber);
+        initialized = true;
     }
 
 
@@ -131,6 +133,11 @@ public class DefaultController implements Controller {
     @Override
     public void draw(String message) {
         view.showUp(message);
+    }
+
+    @Override
+    public boolean isInit() {
+        return initialized;
     }
 
     public DefaultController(Model model, View view) {
