@@ -2,7 +2,9 @@ package main;
 
 
 import edu.kit.informatik.Terminal;
-import config.Config;
+import game.config.Config;
+import game.player.Player;
+import game.system.GameSystem;
 
 import java.util.Vector;
 import java.util.regex.Pattern;
@@ -33,10 +35,72 @@ public final class Main {
      * @see Config for pre-defined static varialbles.
      */
     public static void main(String[] args) {
-        if (!checkFormat(args)) return;
-        if (!checkContent(args)) return;
-        while (true) {
-            break;
+        if (args == null) {
+            Terminal.printError("arguments needed");
+            return;
+        }
+        if (!checkFormat(args) || !checkContent(args)) return;
+        Player[] players = new Player[Integer.parseInt(args[0])];
+        for (int i = 0; i < players.length; i++) {
+            players[i] = new Player();
+        }
+        GameSystem system = new GameSystem(players, args[1].split(";"));
+        while (!system.getGameStopped()) {
+            String order = Terminal.readLine();
+            if (order.matches("^roll\\s\\d$")) {
+                system.roll(Integer.parseInt(order.split(" ")[1]));
+            } else if (order.matches("^harvest$")) {
+                system.harvest();
+            } else if (order.matches("^buy\\s(egg|milk|flour)$")) {
+                switch (order.split(" ")[1]) {
+                    case "flour":
+                        system.buy(Config.GOODS.flour);
+                        break;
+                    case "egg":
+                        system.buy(Config.GOODS.egg);
+                        break;
+                    case "milk":
+                        system.buy(Config.GOODS.milk);
+                    default:
+                }
+            } else if (order.matches("^prepare\\s(yoghurt|meringue|bread|bun|crepe|pudding|cake)$")) {
+                switch (order.split(" ")[1]) {
+                    case "yoghurt":
+                        system.prepare(Config.RECEIPT.Yoghurt);
+                        break;
+                    case "meringue":
+                        system.prepare(Config.RECEIPT.Meringue);
+                        break;
+                    case "bread":
+                        system.prepare(Config.RECEIPT.Bread);
+                        break;
+                    case "bun":
+                        system.prepare(Config.RECEIPT.Bun);
+                        break;
+                    case "crepe":
+                        system.prepare(Config.RECEIPT.Crepe);
+                        break;
+                    case "pudding":
+                        system.prepare(Config.RECEIPT.Pudding);
+                        break;
+                    case "cake":
+                        system.prepare(Config.RECEIPT.Cake);
+                        break;
+                    default: return;
+                }
+            } else if (order.matches("^can-prepare?$")) {
+                system.canPrepare();
+            } else if (order.matches("^show-market$")) {
+                system.showMarket();
+            } else if (order.matches("^show-player\\sP[1234]$")) {
+                system.showPlayer(Integer.parseInt(order.split("P")[1]));
+            } else if (order.matches("^turn$")) {
+                system.turn();
+            } else if (order.matches("^quit$")) {
+                system.quit();
+            }else {
+                Terminal.printError("order not defined, wrong input");
+            }
         }
     }
 
@@ -95,7 +159,7 @@ public final class Main {
         Vector<Integer> cowPasture = new Vector<>(); //case C
         Vector<Integer> mill = new Vector<>(); // case M
         Vector<Integer> henHouse = new Vector<>(); // case H
-        for (int i = 1; i < lengthFields; i++) {
+        for (int i = 1; i < lengthFields + 1; i++) {
             switch (fields[i]) {
                 case "C":
                     cowPasture.add(i);
@@ -124,9 +188,10 @@ public final class Main {
         boolean mToken = true;
         boolean hToken = true;
         int counter = 0;
-        if (cowPasture.size() == 1 || henHouse.size() == 1 || mill.size() == 1 && lengthFields > 4) {
+        if (lengthFields > 4 && (cowPasture.size() == 1 || henHouse.size() == 1 || mill.size() == 1)) {
             Terminal.printError("min. one field has distance>4 with itself(rule 3 broken)");
         }
+        if (cowPasture.size() == 1 && henHouse.size() == 1 && mill.size() == 1 && lengthFields == 3) return true;
         while (cToken || hToken || mToken) {
             if ((cToken && cowPasture.get(counter) + 1 == cowPasture.get(counter + 1))
                     || (hToken && henHouse.get(counter) + 1 == henHouse.get(counter + 1))
