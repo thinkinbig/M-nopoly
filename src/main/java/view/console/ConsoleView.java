@@ -1,5 +1,6 @@
 package view.console;
 
+import controller.Controller;
 import controller.RegexController;
 import view.View;
 
@@ -66,5 +67,24 @@ public class ConsoleView implements View, ConsoleFilter {
     @Override
     public void showUp(String message) {
         System.out.println(message);
+    }
+
+    public static void startConsoleGame() {
+        View view = View.createConsoleView();
+        ConsoleFilter filter = (ConsoleFilter) view;
+        RegexController controller = (RegexController) Controller.byConsole(null, view);
+        while (!controller.isInit()) {
+            try {
+                filter.initialize(controller);
+            } catch (InvocationTargetException e) {
+                System.err.println(e.getMessage());
+            } catch (IllegalAccessException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+
+        while (!controller.isQuited()) {
+            filter.receiveInput(controller);
+        }
     }
 }
