@@ -11,8 +11,34 @@ import java.util.List;
 
 public interface Player extends Subject {
 
-    Field roll(int dice);
+    /**
+     * the biggest dice number
+     */
+    int DICE_MIN = 1;
 
+    /**
+     * the smallest dice number
+     */
+    int DICE_MAX = 6;
+
+    /**
+     * the initial gold that a player possesses
+     */
+    int PRICE = 25;
+
+    /**
+     *  player roll the dice and move to the target field
+     * @param dice number of dice
+     * @throws IllegalArgumentException the dice number is too big or too small
+     * @return target field
+     */
+    Field roll(int dice) throws IllegalArgumentException;
+
+    /**
+     *  player can prepare meal according to the recipe
+     *  when the player has enough money
+     * @param recipe recipe
+     */
     void prepareMeal(Recipe recipe);
 
     boolean canPrepareMeal(Recipe recipe);

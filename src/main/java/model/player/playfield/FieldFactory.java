@@ -3,19 +3,35 @@ package model.player.playfield;
 
 public class FieldFactory {
 
+    /**
+     * create a new hen house
+     * @return hen house
+     */
     public static Field newHenHouse() {
         return new HenHouse();
     }
 
+    /**
+     * create a new meadow
+     * @return meadow
+     */
     public static Field newMeadow() {
         return new Meadow();
     }
 
+    /**
+     * create a new mill
+     * @return mill
+     */
     public static Field newMill() {
         return new Mill();
     }
 
-    public static Field StartField() {
+    /**
+     * create anew start field
+     * @return start field
+     */
+    public static Field newStartField() {
         return new StartField();
     }
 
@@ -36,11 +52,14 @@ public class FieldFactory {
             case "M":
                 field = new Mill();
                 break;
+            case "S":
+                field = new StartField();
             default:
                 break;
         }
         // this line ensure that the name and field has an 1-to-1 association
-        assert field.toString().equals(name);
+        if (field != null)
+            assert field.toString().equals(name);
         return field;
     }
 }

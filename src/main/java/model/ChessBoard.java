@@ -2,7 +2,7 @@ package model;
 
 import model.player.Player;
 import model.player.mode.Strategy;
-import model.player.mode.WinnerTakesAll;
+import model.player.mode.Strategy_1;
 import model.player.playfield.Field;
 import model.product.Recipe;
 import model.product.RawMaterial;
@@ -14,7 +14,7 @@ public class ChessBoard implements Observer, Model {
     private List<Field> fields;
     private Set<Observer> observers = new HashSet<>();
     private List<Player> players;
-    private Strategy win = new WinnerTakesAll();
+    private Strategy win = new Strategy_1();
     private Player current;
     private boolean isQuited;
 

@@ -21,14 +21,11 @@ public class ConcretePlayer implements Player{
     private final Map<RawMaterial, Integer> materials = new EnumMap<>(RawMaterial.class);
     private Set<Observer> observers = new HashSet<>();
     private static int counter = 0;
-    private static final int PRICE = 25;
     public final int id = counter++;
     private int gold;
-    private static final int DICE_MIN = 1;
-    private static final int DICE_MAX = 6;
 
     @Override
-    public Field roll(int dice) {
+    public Field roll(int dice) throws IllegalArgumentException {
         if (dice < DICE_MIN || dice > DICE_MAX)
             throw new IllegalArgumentException("dice number not valid");
         return status.roll(dice);
@@ -169,6 +166,9 @@ public class ConcretePlayer implements Player{
     protected ConcretePlayer(Strategy win, List<Field> fields) {
         this.win = win;
         this.fields = fields;
+        if (fields.size() == 0) {
+            throw new IllegalArgumentException("fields size should not be 0");
+        }
         field = fields.get(0);
         for (RawMaterial material : RawMaterial.values()) {
             this.materials.put(material, 0);
