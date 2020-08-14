@@ -27,7 +27,12 @@ public interface Player extends Subject {
     int PRICE = 25;
 
     /**
-     *  player roll the dice and move to the target field
+     * the price of raw material when get sold
+     */
+    int RAW_PRICE = 1;
+
+    /**
+     * player roll the dice and move to the target field
      * @param dice number of dice
      * @throws IllegalArgumentException the dice number is too big or too small
      * @return target field
@@ -35,31 +40,59 @@ public interface Player extends Subject {
     Field roll(int dice) throws IllegalArgumentException;
 
     /**
-     *  player can prepare meal according to the recipe
-     *  when the player has enough money
+     * player can prepare meal according to the recipe
+     * the profit will be earned by player
      * @param recipe recipe
      */
     void prepareMeal(Recipe recipe);
 
+    /**
+     * check if player can prepare meal
+     * @param recipe recipe
+     * @return true when the player meets the demand,
+     * i.e. not on the start field and has enough money
+     */
     boolean canPrepareMeal(Recipe recipe);
 
-    void setPrepared(Recipe recipe);
 
+    /**
+     * the player create raw material according to the field he was on,
+     * the raw material will be sold to market and the gold will be
+     * earned according to the sold price
+     * @return raw material
+     */
     RawMaterial harvest();
 
+
+    /**
+     * buy material
+     * @param material material
+     */
     void buy(RawMaterial material);
 
+    /**
+     * check if player can buy material
+     * @param material raw material
+     * @return true when can buy
+     */
     boolean canBuy(RawMaterial material);
 
-    boolean canHarvest(RawMaterial material);
 
+    /**
+     * add Gold to player's pocket
+     * @param number number
+     */
     void earnGold(int number);
 
+    /**
+     * use gold to buy material
+     * @param number number
+     */
     void useGold(int number);
 
     boolean addMaterial(RawMaterial material);
 
-    void reduceMaterial(RawMaterial material, int number);
+    void reduceMaterial(RawMaterial material, int number) throws IllegalArgumentException ;
 
     boolean addRawToMarket();
 

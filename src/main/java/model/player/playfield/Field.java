@@ -6,7 +6,15 @@ import model.player.Player;
 public abstract class Field {
     private static int counter = 0;
     private static String MESSAGE = "players on the field should be less than 5 and more than 0";
+
+    /**
+     * field id
+     */
     public final int id = counter++;
+
+    /**
+     * players number
+     */
     protected int players = 0;
 
     protected Field() {

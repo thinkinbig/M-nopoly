@@ -88,7 +88,7 @@ public class ChessBoard implements Observer, Model {
     }
 
     @Override
-    public Map<RawMaterial, Integer> showMarket() {
+    public Iterable<String> showMarket() {
         if (isQuited)
             throw new UnsupportedOperationException("the game is over");
         return Market.showMarket();

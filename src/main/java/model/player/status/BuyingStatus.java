@@ -17,7 +17,8 @@ public class BuyingStatus extends Status{
 
     @Override
     public void buy(RawMaterial material) {
-        player.addMaterial(material);
+        if (!player.addMaterial(material))
+            throw new UnsupportedOperationException(BUY_ERROR);
     }
 
     @Override

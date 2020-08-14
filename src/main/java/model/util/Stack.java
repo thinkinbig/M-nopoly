@@ -11,13 +11,15 @@ public class Stack {
     private RawMaterial[] items = new RawMaterial[CAPACITY];
 
     private int counter = CAPACITY - 1;
+    private int size = 0;
 
-    public void push(RawMaterial raw) {
+    public void push() {
         if (isFull())
             throw new ArrayIndexOutOfBoundsException();
         else {
             items[counter] = raw;
             counter--;
+            size++;
         }
     }
 
@@ -27,13 +29,18 @@ public class Stack {
         else {
             items[counter] = null;
             counter++;
+            size--;
         }
+    }
+
+    public int size() {
+        return size;
     }
 
     public Stack(RawMaterial raw) {
         this.raw = raw;
-        this.push(raw);
-        this.push(raw);
+        this.push();
+        this.push();
     }
 
     public RawMaterial getType() {
@@ -44,11 +51,9 @@ public class Stack {
         return counter + 1;
     }
 
-    public boolean isFull() {
-       return counter == 0 && items[0] != null;
-    }
+    public boolean isFull() { return size >= CAPACITY; }
 
     public boolean isEmpty() {
-        return counter == CAPACITY - 1 && items[counter] == null;
+        return size <= 0;
     }
 }

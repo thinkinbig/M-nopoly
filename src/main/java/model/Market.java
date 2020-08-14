@@ -3,8 +3,7 @@ package model;
 import model.product.RawMaterial;
 import model.util.Stack;
 
-import java.util.EnumMap;
-import java.util.Map;
+import java.util.*;
 
 public class Market {
     private static final Stack[] stacks = {
@@ -22,7 +21,7 @@ public class Market {
     }
 
     public static void addMaterial(RawMaterial material) {
-        getStack(material).push(material);
+        getStack(material).push();
     }
 
     public static boolean stackFull(RawMaterial material) {
@@ -38,11 +37,18 @@ public class Market {
         return null;
     }
 
-    public static Map<RawMaterial, Integer> showMarket() {
+    public static Iterable<String> showMarket() {
         Map<RawMaterial, Integer> map = new EnumMap<>(RawMaterial.class);
         for (Stack s : stacks) {
             map.put(s.getType(), s.getPrice());
         }
-        return map;
+
+        List<Map.Entry<RawMaterial, Integer>> list = new ArrayList<>(map.entrySet());
+        Collections.sort(list, Comparator.comparing(Map.Entry::getValue));
+        List<String> result = new ArrayList<>();
+        for (Map.Entry<RawMaterial, Integer> entry : list) {
+            result.add(entry.getKey() + ";" + entry.getValue());
+        }
+        return result;
     }
 }

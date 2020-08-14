@@ -1,5 +1,6 @@
 package model.player.status;
 
+import model.Market;
 import model.player.Player;
 import model.player.playfield.Field;
 import model.product.RawMaterial;
@@ -16,6 +17,8 @@ public class MovedStatus extends Status {
         if (player.addRawToMarket()) {
             super.next = new HarvestedStatus(player);
             changeStatus();
+        } else {
+            throw new UnsupportedOperationException(HARVEST_ERROR);
         }
     }
 
@@ -24,6 +27,8 @@ public class MovedStatus extends Status {
         if (player.addMaterial(material)) {
             super.next = new BuyingStatus(player);
             changeStatus();
+        } else {
+            throw new UnsupportedOperationException(BUY_ERROR);
         }
     }
 

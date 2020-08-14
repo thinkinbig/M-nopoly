@@ -34,6 +34,8 @@ public class InitialStatus extends Status {
 
     @Override
     public Field roll(int dice) {
+        super.next = new MovedStatus(player);
+        changeStatus();
         return player.move(dice);
     }
 

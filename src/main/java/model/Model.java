@@ -5,8 +5,8 @@ import model.player.playfield.Field;
 import model.product.Recipe;
 import model.product.RawMaterial;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public interface Model {
 
@@ -22,7 +22,7 @@ public interface Model {
 
     Iterable<Recipe> available();
 
-    Map<RawMaterial, Integer> showMarket();
+    Iterable<String> showMarket();
 
     List<Integer> showPlayer(int number);
 

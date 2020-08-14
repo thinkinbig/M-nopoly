@@ -10,9 +10,9 @@ import view.View;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class DefaultController implements Controller {
     private InitializedRules rules;
@@ -91,10 +91,9 @@ public class DefaultController implements Controller {
 
     @Override
     public String requestShowMarket() {
-        Map<RawMaterial, Integer> map = model.showMarket();
         StringBuilder sb = new StringBuilder();
-        for (RawMaterial raw : map.keySet()) {
-            sb.append(map.get(raw) + ";" + raw.toString() + "\n");
+        for (String string : model.showMarket()) {
+            sb.append(string + "\n");
         }
         return sb.toString().trim();
     }

@@ -34,6 +34,7 @@ public class ConcretePlayer implements Player{
     @Override
     public void prepareMeal(Recipe recipe) {
         status.prepare(recipe);
+        setPrepared(recipe);
     }
 
     @Override
@@ -62,10 +63,6 @@ public class ConcretePlayer implements Player{
         return gold >= field.getMaterial().getPrice() && !Market.getStack(material).isEmpty();
     }
 
-    @Override
-    public boolean canHarvest(RawMaterial material) {
-        return Market.stackFull(material);
-    }
 
     @Override
     public void earnGold(int number) {
@@ -73,7 +70,7 @@ public class ConcretePlayer implements Player{
     }
 
     @Override
-    public void useGold(int number) {
+    public void useGold(int number) throws IllegalArgumentException {
         if (gold - number >= 0)
             this.gold -= number;
         else
@@ -82,9 +79,9 @@ public class ConcretePlayer implements Player{
 
     @Override
     public boolean addMaterial(RawMaterial material) {
-        if (field.getClass() == StartField.class || !canBuy(material))
+        if (field.getClass() == StartField.class || !canBuy(material)) {
             return false;
-        else {
+        } else {
             int price = material.getPrice();
             int number = materials.get(material);
             useGold(price);
@@ -95,7 +92,7 @@ public class ConcretePlayer implements Player{
     }
 
     @Override
-    public void reduceMaterial(RawMaterial material, int number) {
+    public void reduceMaterial(RawMaterial material, int number) throws IllegalArgumentException {
         int num = materials.get(material);
         if (num >= number)
             materials.put(material, number - num);
@@ -105,10 +102,11 @@ public class ConcretePlayer implements Player{
 
     @Override
     public boolean addRawToMarket() {
-        if (field.getClass() == StartField.class && !canHarvest(field.getMaterial()))
+        if (field.getClass() == StartField.class || Market.stackFull(field.getMaterial()))
             return false;
         else {
             field.getMaterial().add();
+            this.earnGold(RAW_PRICE);
             return true;
         }
     }
@@ -182,8 +180,7 @@ public class ConcretePlayer implements Player{
         this.gold = 20;
     }
 
-    @Override
-    public void setPrepared(Recipe recipe) {
+    private void setPrepared(Recipe recipe) {
         boolean flag = true;
         for (Recipe d : dishes.keySet()) {
             if (d == recipe) {
