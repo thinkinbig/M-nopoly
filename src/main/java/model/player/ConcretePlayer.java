@@ -221,10 +221,5 @@ public class ConcretePlayer implements Player{
         return win.win(this);
     }
 
-    @Override
-    public void setStrategy(Strategy strategy) {
-        this.win = strategy;
-    }
-
 
 }

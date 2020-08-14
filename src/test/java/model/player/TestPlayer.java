@@ -140,4 +140,24 @@ public class TestPlayer {
         player.useGold(number);
     }
 
+    @Test
+    public final void test_reduce_materials() {
+        player.roll(1);
+        Assert.assertTrue(player.addMaterial(RawMaterial.MILK));
+        player.reduceMaterial(RawMaterial.MILK, 1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public final void test_reduce_materials_failure() {
+        player.roll(1);
+        player.reduceMaterial(RawMaterial.MILK, 2);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public final void test_turn() {
+        player.roll(1);
+        player.turn();
+        player.roll(1);
+    }
+
 }

@@ -90,32 +90,87 @@ public interface Player extends Subject {
      */
     void useGold(int number);
 
+    /**
+     * add material to player's pocket
+     * @param material raw material
+     * @return if added successfully
+     */
     boolean addMaterial(RawMaterial material);
 
+    /**
+     * reduce several times material in player's pocket
+     * @param material raw material
+     * @param number times
+     * @throws IllegalArgumentException if player does not have so many materials
+     */
     void reduceMaterial(RawMaterial material, int number) throws IllegalArgumentException ;
 
+    /**
+     * add raw material to market, only when the player is not on the start field
+     * @return true when successful
+     */
     boolean addRawToMarket();
 
+    /**
+     * set status of player
+     * @param status status
+     */
     void setStatus(Status status);
 
+    /**
+     * getter for player id
+     * @return id
+     */
     int id();
 
+    /**
+     * getter for player gold
+     * @return gold
+     */
     int gold();
 
+    /**
+     * turn to another player, this player cannot move anymore
+     */
     void turn();
 
+    /**
+     * get  for all available recipes
+     * @return available recipes
+     */
     Iterable<Recipe> available();
 
+    /**
+     * move to another field
+     * @param dice dice number
+     * @return current field
+     */
     Field move(int dice);
 
+    /**
+     * show player's current possessions number
+     * @return
+     */
     List<Integer> show();
 
+    /**
+     * toString
+     * @return string type of player
+     */
     String toString();
 
+    /**
+     * check if the player is won
+     * @return
+     */
     boolean win();
 
-    void setStrategy(Strategy strategy);
-
+    /**
+     * static factory method to produce a player
+     * @param strategy winning strategy
+     * @param fields fields
+     * @return new player
+     */
     static Player newPlayer(Strategy strategy, List<Field> fields) {
         return new ConcretePlayer(strategy, fields);
     }
